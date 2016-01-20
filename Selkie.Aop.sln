@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop.Example", "Selkie.Aop.Example\Selkie.Aop.Example.csproj", "{E30DCF69-90AA-4355-AA70-4887A4862013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop.Tests", "Selkie.Aop.Tests\Selkie.Aop.Tests.csproj", "{11ED857B-E269-427C-B0E8-C5C18593F13E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop.Example.Data", "Selkie.Aop.Example.Data\Selkie.Aop.Example.Data.csproj", "{1B66485B-35E0-41DB-9039-EA1E684D2C23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Selkie.Aop", "NuGet.Selkie.Aop\NuGet.Selkie.Aop.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop", "Selkie.Aop\Selkie.Aop.csproj", "{7542560D-1537-411D-9E41-3C59C102D65C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E30DCF69-90AA-4355-AA70-4887A4862013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30DCF69-90AA-4355-AA70-4887A4862013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30DCF69-90AA-4355-AA70-4887A4862013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30DCF69-90AA-4355-AA70-4887A4862013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11ED857B-E269-427C-B0E8-C5C18593F13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11ED857B-E269-427C-B0E8-C5C18593F13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11ED857B-E269-427C-B0E8-C5C18593F13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11ED857B-E269-427C-B0E8-C5C18593F13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B66485B-35E0-41DB-9039-EA1E684D2C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B66485B-35E0-41DB-9039-EA1E684D2C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B66485B-35E0-41DB-9039-EA1E684D2C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B66485B-35E0-41DB-9039-EA1E684D2C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7542560D-1537-411D-9E41-3C59C102D65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7542560D-1537-411D-9E41-3C59C102D65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7542560D-1537-411D-9E41-3C59C102D65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7542560D-1537-411D-9E41-3C59C102D65C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
