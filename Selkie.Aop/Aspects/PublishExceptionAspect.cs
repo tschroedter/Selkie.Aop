@@ -11,13 +11,16 @@ namespace Selkie.Aop.Aspects
     public class PublishExceptionAspect : IInterceptor
     {
         private readonly ISelkieBus m_Bus;
-        private readonly IInvocationToTextConverter m_Converter;
+        private readonly IExceptionLogger m_ExceptionLogger;
+        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
 
         public PublishExceptionAspect([NotNull] ISelkieBus bus,
-                                      [NotNull] IInvocationToTextConverter converter)
+                                      [NotNull] IExceptionLogger exceptionLogger,
+                                      [NotNull] IExceptionToMessageConverter exceptionToMessageConverter)
         {
             m_Bus = bus;
-            m_Converter = converter;
+            m_ExceptionLogger = exceptionLogger;
+            m_ExceptionToMessageConverter = exceptionToMessageConverter;
         }
 
         public void Intercept(IInvocation invocation)
@@ -28,17 +31,23 @@ namespace Selkie.Aop.Aspects
             }
             catch ( Exception exception )
             {
-                var message = new ExceptionThrownMessage
-                              {
-                                  Invocation = m_Converter.Convert(invocation),
-                                  Message = exception.Message,
-                                  StackTrace = exception.StackTrace
-                              };
+                m_ExceptionLogger.LogException(invocation,
+                                               exception);
 
-                m_Bus.PublishAsync(message);
+                SendMessage(invocation,
+                            exception);
 
                 throw;
             }
+        }
+
+        private void SendMessage(IInvocation invocation,
+                                 Exception exception)
+        {
+            ExceptionThrownMessage message = m_ExceptionToMessageConverter.CreateExceptionThrownMessage(invocation,
+                                                                                                        exception);
+
+            m_Bus.PublishAsync(message);
         }
     }
 }

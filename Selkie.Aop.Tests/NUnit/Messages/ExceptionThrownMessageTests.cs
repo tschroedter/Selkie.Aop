@@ -12,11 +12,16 @@ namespace Selkie.Aop.Tests.NUnit.Messages
         {
             m_Exception = new ArgumentException("Test");
 
+            var information = new ExceptionInformation
+                       {
+                           Invocation = "Invocation",
+                           Message = m_Exception.Message,
+                           StackTrace = m_Exception.StackTrace
+                       };
+
             m_Sut = new ExceptionThrownMessage
                     {
-                        Invocation = "Invocation",
-                        Message = m_Exception.Message,
-                        StackTrace = m_Exception.StackTrace
+                        Exception = information
                     };
         }
 
@@ -27,21 +32,21 @@ namespace Selkie.Aop.Tests.NUnit.Messages
         public void Invocation_Roundtrip()
         {
             Assert.AreEqual("Invocation",
-                            m_Sut.Invocation);
+                            m_Sut.Exception.Invocation);
         }
 
         [Test]
         public void Message_Roundtrip()
         {
             Assert.AreEqual(m_Exception.Message,
-                            m_Sut.Message);
+                            m_Sut.Exception.Message);
         }
 
         [Test]
         public void StackTrace_Roundtrip()
         {
             Assert.AreEqual(m_Exception.StackTrace,
-                            m_Sut.StackTrace);
+                            m_Sut.Exception.StackTrace);
         }
     }
 }

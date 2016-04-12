@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using Selkie.Aop.Messages;
 using Selkie.EasyNetQ;
 using Selkie.Windsor;
-using Selkie.Windsor.Extensions;
 
 namespace Selkie.Aop.Aspects
 {
@@ -13,16 +12,22 @@ namespace Selkie.Aop.Aspects
     public class MessageHandlerAspect : IInterceptor
     {
         private readonly ISelkieBus m_Bus;
-        private readonly IInvocationToTextConverter m_Converter;
+        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
+        private readonly IExceptionLogger m_ExceptionLogger;
+        private readonly IInvocationToTextConverter m_InvocationToTextConverter;
         private readonly ILoggerRepository m_Repository;
 
         public MessageHandlerAspect([NotNull] ISelkieBus bus,
                                     [NotNull] ILoggerRepository repository,
-                                    [NotNull] IInvocationToTextConverter converter)
+                                    [NotNull] IInvocationToTextConverter invocationToTextConverter,
+                                    [NotNull] IExceptionToMessageConverter exceptionToMessageConverter,
+                                    [NotNull] IExceptionLogger exceptionLogger)
         {
             m_Bus = bus;
             m_Repository = repository;
-            m_Converter = converter;
+            m_InvocationToTextConverter = invocationToTextConverter;
+            m_ExceptionToMessageConverter = exceptionToMessageConverter;
+            m_ExceptionLogger = exceptionLogger;
         }
 
         public void Intercept(IInvocation invocation)
@@ -31,7 +36,7 @@ namespace Selkie.Aop.Aspects
 
             if ( logger.IsDebugEnabled )
             {
-                logger.Debug(m_Converter.Convert(invocation));
+                logger.Debug(m_InvocationToTextConverter.Convert(invocation));
             }
 
             try
@@ -40,43 +45,19 @@ namespace Selkie.Aop.Aspects
             }
             catch ( Exception exception )
             {
-                LogException(invocation,
-                             logger,
-                             exception);
+                m_ExceptionLogger.LogException(invocation,
+                                               exception);
 
                 SendMessage(invocation,
                             exception);
             }
         }
 
-        private void LogException(IInvocation invocation,
-                                  ILogger logger,
-                                  Exception exception)
+        private void SendMessage([NotNull] IInvocation invocation,
+                                 [NotNull] Exception exception)
         {
-            if ( !logger.IsErrorEnabled )
-            {
-                return;
-            }
-
-            string invocationDetails = m_Converter.Convert(invocation);
-
-            string inject = "{0}: Caught exception! - Offending method call: {1}".Inject(GetType().Name,
-                                                                                         invocationDetails);
-            logger.Error(inject,
-                         exception);
-        }
-
-        private void SendMessage(IInvocation invocation,
-                                 Exception exception)
-        {
-            string invocationDetails = m_Converter.Convert(invocation);
-
-            var message = new ExceptionThrownMessage
-                          {
-                              Invocation = invocationDetails,
-                              Message = exception.Message,
-                              StackTrace = exception.StackTrace
-                          };
+            ExceptionThrownMessage message = m_ExceptionToMessageConverter.CreateExceptionThrownMessage(invocation,
+                                                                                                        exception);
 
             m_Bus.PublishAsync(message);
         }

@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Castle.Core.Logging;
 using Castle.DynamicProxy;
-using JetBrains.Annotations;
 using NSubstitute;
 using NUnit.Framework;
 using Selkie.Aop.Aspects;
@@ -16,27 +15,32 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
     [TestFixture]
     internal sealed class MessageHandlerAspectTests
     {
-        private MessageHandlerAspect CreateSut()
+        [SetUp]
+        public void Setup()
         {
-            return CreateSut(Substitute.For <ISelkieBus>(),
-                             Substitute.For <IInvocationToTextConverter>(),
-                             Substitute.For <ILogger>());
+            m_Bus = Substitute.For <ISelkieBus>();
+            m_InvocationConverter = Substitute.For <IInvocationToTextConverter>();
+            m_Repository = Substitute.For <ILoggerRepository>();
+            m_Logger = Substitute.For <ILogger>();
+            m_MessageConverter = Substitute.For <IExceptionToMessageConverter>();
+            m_ExceptionLogger = Substitute.For <IExceptionLogger>();
+
+            m_Repository.Get(Arg.Any <string>()).Returns(m_Logger);
+
+            m_Sut = new MessageHandlerAspect(m_Bus,
+                                             m_Repository,
+                                             m_InvocationConverter,
+                                             m_MessageConverter,
+                                             m_ExceptionLogger);
         }
 
-
-        private MessageHandlerAspect CreateSut([NotNull] ISelkieBus bus,
-                                               [NotNull] IInvocationToTextConverter converter,
-                                               [NotNull] ILogger logger)
-        {
-            var repository = Substitute.For <ILoggerRepository>();
-            repository.Get(Arg.Any <string>()).ReturnsForAnyArgs(logger);
-
-            var sut = new MessageHandlerAspect(bus,
-                                               repository,
-                                               converter);
-
-            return sut;
-        }
+        private IInvocationToTextConverter m_InvocationConverter;
+        private ISelkieBus m_Bus;
+        private ILogger m_Logger;
+        private IExceptionToMessageConverter m_MessageConverter;
+        private IExceptionLogger m_ExceptionLogger;
+        private MessageHandlerAspect m_Sut;
+        private ILoggerRepository m_Repository;
 
         private IInvocation CreateInvocation()
         {
@@ -95,40 +99,18 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         }
 
         [Test]
-        public void Intercept_CallsConverter_ForIsDebugEnabledIsTrue()
-        {
-            // Arrange
-            var logger = Substitute.For <ILogger>();
-            logger.IsDebugEnabled.Returns(true);
-            var converter = Substitute.For <IInvocationToTextConverter>();
-            IInvocation invocation = CreateInvocation();
-            MessageHandlerAspect sut = CreateSut(Substitute.For <ISelkieBus>(),
-                                                 converter,
-                                                 logger);
-
-            // Act
-            sut.Intercept(invocation);
-
-            // Assert
-            converter.Received().Convert(Arg.Any <IInvocation>());
-        }
-
-        [Test]
         public void Intercept_CallsDebug_ForIsDebugEnabledIsTrue()
         {
             // Arrange
-            var logger = Substitute.For <ILogger>();
-            logger.IsDebugEnabled.Returns(true);
+            m_Logger.IsDebugEnabled.Returns(true);
+            m_InvocationConverter.Convert(Arg.Any <IInvocation>()).Returns("Test");
             IInvocation invocation = CreateInvocation();
-            MessageHandlerAspect sut = CreateSut(Substitute.For <ISelkieBus>(),
-                                                 new InvocationToTextConverter(),
-                                                 logger);
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
-            logger.Received().Debug(Arg.Is <string>(x => x.StartsWith("LogAspectTests")));
+            m_Logger.Received().Debug(Arg.Is <string>(x => x == "Test"));
         }
 
         [Test]
@@ -136,18 +118,13 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocationThatThrows();
-            var logger = Substitute.For <ILogger>();
-            logger.IsErrorEnabled.Returns(true);
-            MessageHandlerAspect sut = CreateSut(Substitute.For <ISelkieBus>(),
-                                                 new InvocationToTextConverter(),
-                                                 logger);
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
-            logger.Received().Error(Arg.Any <string>(),
-                                    Arg.Any <Exception>());
+            m_ExceptionLogger.Received().LogException(Arg.Any <IInvocation>(),
+                                                      Arg.Any <Exception>());
         }
 
         [Test]
@@ -155,10 +132,9 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocation();
-            MessageHandlerAspect sut = CreateSut();
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
             invocation.Received().Proceed();
@@ -169,36 +145,28 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocationThatThrows();
-            var logger = Substitute.For <ILogger>();
-            logger.IsErrorEnabled.Returns(false);
-            MessageHandlerAspect sut = CreateSut(Substitute.For <ISelkieBus>(),
-                                                 new InvocationToTextConverter(),
-                                                 logger);
+            m_Logger.IsErrorEnabled.Returns(false);
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
-            logger.DidNotReceiveWithAnyArgs().Error(Arg.Any <string>(),
-                                                    Arg.Any <Exception>());
+            m_Logger.DidNotReceiveWithAnyArgs().Error(Arg.Any <string>(),
+                                                      Arg.Any <Exception>());
         }
 
         [Test]
         public void Intercept_DoesNotCallsDebug_ForIsDebugEnabledIsFalse()
         {
             // Arrange
-            var logger = Substitute.For <ILogger>();
-            logger.IsDebugEnabled.Returns(false);
+            m_Logger.IsDebugEnabled.Returns(false);
             IInvocation invocation = CreateInvocation();
-            MessageHandlerAspect sut = CreateSut(Substitute.For <ISelkieBus>(),
-                                                 new InvocationToTextConverter(),
-                                                 logger);
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
-            logger.DidNotReceiveWithAnyArgs().Debug(Arg.Any <string>());
+            m_Logger.DidNotReceiveWithAnyArgs().Debug(Arg.Any <string>());
         }
 
         [Test]
@@ -206,16 +174,12 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocationThatThrows();
-            var bus = Substitute.For <ISelkieBus>();
-            MessageHandlerAspect sut = CreateSut(bus,
-                                                 new InvocationToTextConverter(),
-                                                 Substitute.For <ILogger>());
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
-            bus.Received().PublishAsync(Arg.Any <ExceptionThrownMessage>());
+            m_Bus.Received().PublishAsync(Arg.Any <ExceptionThrownMessage>());
         }
     }
 }

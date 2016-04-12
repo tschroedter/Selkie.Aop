@@ -70,12 +70,12 @@
       <HintPath>..\packages\RabbitMQ.Client.3.5.4\lib\net40\RabbitMQ.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Selkie.EasyNetQ, Version=0.6.186.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selkie.EasyNetQ.0.6.186.0\lib\net45\Selkie.EasyNetQ.dll</HintPath>
+    <Reference Include="Selkie.EasyNetQ, Version=0.6.214.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selkie.EasyNetQ.0.6.214.0\lib\net45\Selkie.EasyNetQ.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Selkie.Windsor, Version=0.6.243.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selkie.Windsor.0.6.243.0\lib\net45\Selkie.Windsor.dll</HintPath>
+    <Reference Include="Selkie.Windsor, Version=0.6.256.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selkie.Windsor.0.6.256.0\lib\net45\Selkie.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -87,7 +87,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspects\ExceptionLogger.cs" />
+    <Compile Include="Aspects\ExceptionToMessageConverter.cs" />
+    <Compile Include="Aspects\IExceptionLogger.cs" />
+    <Compile Include="Aspects\IExceptionToMessageConverter.cs" />
+    <Compile Include="Aspects\IStatusInfo.cs" />
+    <Compile Include="Aspects\IStatusRepository.cs" />
+    <Compile Include="Aspects\StatusAspect.cs" />
     <Compile Include="Aspects\MessageHandlerAspect.cs" />
+    <Compile Include="Aspects\StatusAttribute.cs" />
+    <Compile Include="Aspects\StatusRepository.cs" />
+    <Compile Include="Messages\ExceptionInformation.cs" />
     <Compile Include="Messages\ExceptionThrownMessage.cs" />
     <Compile Include="IInvocationToTextConverter.cs" />
     <Compile Include="ILoggerRepository.cs" />
@@ -96,6 +106,7 @@
     <Compile Include="Aspects\PublishExceptionAspect.cs" />
     <Compile Include="Aspects\LogAspect.cs" />
     <Compile Include="LoggerRepository.cs" />
+    <Compile Include="Messages\StatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

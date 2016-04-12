@@ -12,15 +12,25 @@ namespace Selkie.Aop.Example
 {
     [ExcludeFromCodeCoverage]
     //ncrunch: no coverage start
-    public class Example
+    public class Example : IDisposable
     {
+        private readonly ISelkieBus m_Bus;
         private readonly WindsorContainer m_Container;
+        private readonly ILogger m_Logger;
 
         public Example(WindsorContainer container,
                        Installer installer)
         {
             m_Container = container;
             m_Container.Install(installer);
+            m_Bus = m_Container.Resolve <ISelkieBus>();
+            m_Logger = m_Container.Resolve <ILogger>();
+        }
+
+        public void Dispose()
+        {
+            m_Container.Release(m_Bus);
+            m_Container.Release(m_Logger);
         }
 
         public void Main()
@@ -36,6 +46,9 @@ namespace Selkie.Aop.Example
 
             TestPublishExceptionAspect(something,
                                        record);
+
+            StatusAspect(something,
+                         record);
         }
 
         private void TestPublishExceptionAspect(ISomething something,
@@ -43,51 +56,54 @@ namespace Selkie.Aop.Example
         {
             try
             {
-                var bus = m_Container.Resolve <ISelkieBus>();
-                bus.SubscribeAsync <ExceptionThrownMessage>(GetType().FullName,
-                                                            ExceptionThrownHandler);
+                m_Bus.SubscribeAsync <ExceptionThrownMessage>(GetType().FullName,
+                                                              ExceptionThrownHandler);
+
                 something.DoSomethingThrows(record);
             }
             catch ( Exception exception )
             {
-                var logger = m_Container.Resolve <ILogger>();
-
-                logger.Debug("Try/Catch {0}".Inject(exception.Message));
-
-                m_Container.Release(logger);
+                m_Logger.Debug("Try/Catch {0}".Inject(exception.Message));
             }
         }
 
         private void TestLogAspect(ISomething something,
                                    Record record)
         {
-            var logger = m_Container.Resolve <ILogger>();
+            m_Bus.SubscribeAsync <StatusMessage>(GetType().FullName,
+                                                 StatusHandler);
 
             something.DoSomething("");
-            logger.Debug("Augment 10 returns {0}".Inject(something.Augment(10)));
+            m_Logger.Debug("Augment 10 returns {0}".Inject(something.Augment(10)));
             something.DoSomething(record);
+        }
 
-            m_Container.Release(logger);
+        private void StatusAspect(ISomething something,
+                                  Record record)
+        {
+            something.DoSomethingStatus("");
+            something.DoSomethingStatus(record);
         }
 
         private void ExceptionThrownHandler(ExceptionThrownMessage message)
         {
-            var logger = m_Container.Resolve <ILogger>();
-
-            logger.Debug(MessageToText(message));
-
-            m_Container.Release(logger);
+            m_Logger.Debug(MessageToText(message));
         }
 
         private string MessageToText(ExceptionThrownMessage message)
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine("Invocation: {0}".Inject(message.Invocation));
-            builder.AppendLine("Message: {0}".Inject(message.Message));
-            builder.AppendLine("StackTrace: {0}".Inject(message.StackTrace));
+            builder.AppendLine("Invocation: {0}".Inject(message.Exception.Invocation));
+            builder.AppendLine("Message: {0}".Inject(message.Exception.Message));
+            builder.AppendLine("StackTrace: {0}".Inject(message.Exception.StackTrace));
 
             return builder.ToString();
+        }
+
+        private void StatusHandler(StatusMessage message)
+        {
+            m_Logger.Debug("StatusHandler: Text = {0}".Inject(message.Text));
         }
     }
 }

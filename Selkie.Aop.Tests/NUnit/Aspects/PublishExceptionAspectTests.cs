@@ -14,27 +14,22 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
     [TestFixture]
     internal sealed class PublishExceptionAspectTests
     {
-        private PublishExceptionAspect CreateSut()
+        [SetUp]
+        public void Setup()
         {
-            return CreateSut(Substitute.For <ISelkieBus>());
+            m_Bus = Substitute.For <ISelkieBus>();
+            m_Logger = Substitute.For <IExceptionLogger>();
+            m_Converter = Substitute.For <IExceptionToMessageConverter>();
+
+            m_Sut = new PublishExceptionAspect(m_Bus,
+                                               m_Logger,
+                                               m_Converter);
         }
 
-        private PublishExceptionAspect CreateSut(ISelkieBus bus)
-        {
-            PublishExceptionAspect sut = CreateSut(bus,
-                                                   new InvocationToTextConverter());
-
-            return sut;
-        }
-
-        private PublishExceptionAspect CreateSut(ISelkieBus bus,
-                                                 IInvocationToTextConverter converter)
-        {
-            var sut = new PublishExceptionAspect(bus,
-                                                 converter);
-
-            return sut;
-        }
+        private ISelkieBus m_Bus;
+        private IExceptionLogger m_Logger;
+        private IExceptionToMessageConverter m_Converter;
+        private PublishExceptionAspect m_Sut;
 
         private IInvocation CreateInvocation()
         {
@@ -97,10 +92,9 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocation();
-            PublishExceptionAspect sut = CreateSut();
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
             // Assert
             invocation.Received().Proceed();
@@ -111,13 +105,24 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocation();
-            var bus = Substitute.For <ISelkieBus>();
-            PublishExceptionAspect sut = CreateSut(bus);
 
             // Act
-            sut.Intercept(invocation);
+            m_Sut.Intercept(invocation);
 
-            bus.DidNotReceiveWithAnyArgs().PublishAsync(Arg.Any <ExceptionThrownMessage>());
+            m_Bus.DidNotReceiveWithAnyArgs().PublishAsync(Arg.Any <ExceptionThrownMessage>());
+        }
+
+        [Test]
+        public void Intercept_LogsMessage_WhenCallingProceedThrowsException()
+        {
+            // Arrange
+            IInvocation invocation = CreateInvocationThatThrows();
+
+            // Act
+            Assert.Throws <Exception>(() => m_Sut.Intercept(invocation));
+
+            m_Logger.Received().LogException(Arg.Any <IInvocation>(),
+                                             Arg.Any <Exception>());
         }
 
         [Test]
@@ -125,13 +130,11 @@ namespace Selkie.Aop.Tests.NUnit.Aspects
         {
             // Arrange
             IInvocation invocation = CreateInvocationThatThrows();
-            var bus = Substitute.For <ISelkieBus>();
-            PublishExceptionAspect sut = CreateSut(bus);
 
             // Act
-            Assert.Throws <Exception>(() => sut.Intercept(invocation));
+            Assert.Throws <Exception>(() => m_Sut.Intercept(invocation));
 
-            bus.Received().PublishAsync(Arg.Any <ExceptionThrownMessage>());
+            m_Bus.Received().PublishAsync(Arg.Any <ExceptionThrownMessage>());
         }
     }
 }

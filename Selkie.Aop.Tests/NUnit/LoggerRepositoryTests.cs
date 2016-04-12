@@ -1,17 +1,14 @@
-﻿using Castle.Core.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
+using Castle.Core.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace Selkie.Aop.Tests.NUnit
 {
+    [ExcludeFromCodeCoverage]
     [TestFixture]
     internal sealed class LoggerRepositoryTests
     {
-        private ILoggerFactory m_Factory;
-        private ILogger m_LoggerOne;
-        private ILogger m_LoggerTwo;
-        private LoggerRepository m_Sut;
-
         [SetUp]
         public void Setup()
         {
@@ -25,6 +22,11 @@ namespace Selkie.Aop.Tests.NUnit
             m_Sut = new LoggerRepository(m_Factory);
         }
 
+        private ILoggerFactory m_Factory;
+        private ILogger m_LoggerOne;
+        private ILogger m_LoggerTwo;
+        private LoggerRepository m_Sut;
+
         [Test]
         public void Get_CreatesNewLogger_ForNewType()
         {
@@ -34,6 +36,19 @@ namespace Selkie.Aop.Tests.NUnit
 
             // Assert
             Assert.NotNull(actual);
+        }
+
+        [Test]
+        public void Get_ReturnsDifferentLogger_ForDifferentTypes()
+        {
+            // Arrange
+            // Act
+            ILogger one = m_Sut.Get("One");
+            ILogger two = m_Sut.Get("Two");
+
+            // Assert
+            Assert.AreNotEqual(two,
+                               one);
         }
 
         [Test]
@@ -48,19 +63,6 @@ namespace Selkie.Aop.Tests.NUnit
             // Assert
             Assert.AreEqual(expected,
                             actual);
-        }
-
-        [Test]
-        public void Get_ReturnsDifferentLogger_ForDifferentTypes()
-        {
-            // Arrange
-            // Act
-            ILogger one = m_Sut.Get("One");
-            ILogger two = m_Sut.Get("Two");
-
-            // Assert
-            Assert.AreNotEqual(two,
-                               one);
         }
     }
 }

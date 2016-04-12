@@ -8,6 +8,7 @@ namespace Selkie.Aop.Example.Data
 {
     [ExcludeFromCodeCoverage]
     //ncrunch: no coverage start
+    [Interceptor(typeof ( StatusAspect ))]
     [Interceptor(typeof ( LogAspect ))]
     [Interceptor(typeof ( MessageHandlerAspect ))]
     [ProjectComponent(Lifestyle.Transient)]
@@ -31,6 +32,18 @@ namespace Selkie.Aop.Example.Data
         public void DoSomethingThrows(Record record)
         {
             throw new ArgumentException("Test");
+        }
+
+        [Status("**** Doing something (status)... ***")]
+        public void DoSomethingStatus(string input)
+        {
+            Console.WriteLine("I'm doing something (status): " + input);
+        }
+
+        [Status("+++ Doing something (status)... +++")]
+        public void DoSomethingStatus(Record record)
+        {
+            Console.WriteLine(record);
         }
 
         public int Property { get; set; }

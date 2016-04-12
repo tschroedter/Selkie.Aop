@@ -20,6 +20,8 @@ namespace Selkie.Aop.Example
 
             Console.ReadLine();
 
+            example.Dispose();
+
             Environment.Exit(0);
         }
     }
