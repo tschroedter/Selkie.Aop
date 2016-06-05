@@ -10,12 +10,12 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class ExceptionToMessageConverter : IExceptionToMessageConverter
     {
-        private readonly IInvocationToTextConverter m_Converter;
-
         public ExceptionToMessageConverter([NotNull] IInvocationToTextConverter converter)
         {
             m_Converter = converter;
         }
+
+        private readonly IInvocationToTextConverter m_Converter;
 
         public ExceptionThrownMessage CreateExceptionThrownMessage(IInvocation invocation,
                                                                    Exception exception)
@@ -71,6 +71,7 @@ namespace Selkie.Aop.Aspects
 
             exceptions.Add(information);
 
+            // ReSharper disable once TailRecursiveCall
             CreateInnerExceptionInformations(exceptions,
                                              innerException);
         }

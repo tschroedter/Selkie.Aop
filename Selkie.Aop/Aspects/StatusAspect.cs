@@ -11,12 +11,6 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class StatusAspect : IInterceptor
     {
-        private readonly ISelkieBus m_Bus;
-        private readonly IExceptionLogger m_ExceptionLogger;
-        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
-        private readonly ILoggerRepository m_Repository;
-        private readonly IStatusRepository m_StatusRepository;
-
         public StatusAspect([NotNull] ILoggerRepository repository,
                             [NotNull] IStatusRepository statusRepository,
                             [NotNull] ISelkieBus bus,
@@ -29,6 +23,12 @@ namespace Selkie.Aop.Aspects
             m_ExceptionLogger = exceptionLogger;
             m_ExceptionToMessageConverter = exceptionToMessageConverter;
         }
+
+        private readonly ISelkieBus m_Bus;
+        private readonly IExceptionLogger m_ExceptionLogger;
+        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
+        private readonly ILoggerRepository m_Repository;
+        private readonly IStatusRepository m_StatusRepository;
 
         public void Intercept(IInvocation invocation)
         {
@@ -58,27 +58,29 @@ namespace Selkie.Aop.Aspects
             }
         }
 
-        private void SendMessagWhenRequired(string text,
-                                            ILogger logger)
-        {
-            if ( !string.IsNullOrEmpty(text) )
-            {
-                logger.Info(text);
-
-                var message = new StatusMessage
-                              {
-                                  Text = text
-                              };
-
-                m_Bus.PublishAsync(message);
-            }
-        }
-
         private void SendExceptionThrownMessage(IInvocation invocation,
                                                 Exception exception)
         {
             ExceptionThrownMessage message = m_ExceptionToMessageConverter.CreateExceptionThrownMessage(invocation,
                                                                                                         exception);
+
+            m_Bus.PublishAsync(message);
+        }
+
+        private void SendMessagWhenRequired(string text,
+                                            ILogger logger)
+        {
+            if ( string.IsNullOrEmpty(text) )
+            {
+                return;
+            }
+
+            logger.Info(text);
+
+            var message = new StatusMessage
+                          {
+                              Text = text
+                          };
 
             m_Bus.PublishAsync(message);
         }

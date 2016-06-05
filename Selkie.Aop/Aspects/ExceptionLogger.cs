@@ -11,15 +11,15 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class ExceptionLogger : IExceptionLogger
     {
-        private readonly IInvocationToTextConverter m_Converter;
-        private readonly ILogger m_Logger;
-
         public ExceptionLogger([NotNull] ILogger logger,
                                [NotNull] IInvocationToTextConverter converter)
         {
             m_Logger = logger;
             m_Converter = converter;
         }
+
+        private readonly IInvocationToTextConverter m_Converter;
+        private readonly ILogger m_Logger;
 
         public void LogException(IInvocation invocation,
                                  Exception exception)

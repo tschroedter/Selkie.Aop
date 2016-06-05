@@ -7,10 +7,9 @@ using Selkie.Windsor;
 namespace Selkie.Aop.Example.Data
 {
     [ExcludeFromCodeCoverage]
-    //ncrunch: no coverage start
-    [Interceptor(typeof ( StatusAspect ))]
-    [Interceptor(typeof ( LogAspect ))]
-    [Interceptor(typeof ( MessageHandlerAspect ))]
+    [Interceptor(typeof( StatusAspect ))]
+    [Interceptor(typeof( LogAspect ))]
+    [Interceptor(typeof( MessageHandlerAspect ))]
     [ProjectComponent(Lifestyle.Transient)]
     public class Something : ISomething
     {
@@ -31,6 +30,7 @@ namespace Selkie.Aop.Example.Data
 
         public void DoSomethingThrows(Record record)
         {
+            Console.WriteLine("I'm doing something (record) and throw: " + record);
             throw new ArgumentException("Test");
         }
 

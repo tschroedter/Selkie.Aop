@@ -8,15 +8,15 @@ namespace Selkie.Aop
     [ProjectComponent(Lifestyle.Singleton)]
     public class LoggerRepository : ILoggerRepository
     {
-        private readonly ILoggerFactory m_LoggerFactory;
-
-        private readonly ConcurrentDictionary <string, ILogger> m_Loggers =
-            new ConcurrentDictionary <string, ILogger>();
-
         public LoggerRepository([NotNull] ILoggerFactory loggerFactory)
         {
             m_LoggerFactory = loggerFactory;
         }
+
+        private readonly ILoggerFactory m_LoggerFactory;
+
+        private readonly ConcurrentDictionary <string, ILogger> m_Loggers =
+            new ConcurrentDictionary <string, ILogger>();
 
         public ILogger Get(string name)
         {

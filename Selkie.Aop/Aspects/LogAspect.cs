@@ -9,15 +9,15 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class LogAspect : IInterceptor
     {
-        private readonly IInvocationToTextConverter m_Converter;
-        private readonly ILoggerRepository m_Repository;
-
         public LogAspect([NotNull] ILoggerRepository repository,
                          [NotNull] IInvocationToTextConverter converter)
         {
             m_Repository = repository;
             m_Converter = converter;
         }
+
+        private readonly IInvocationToTextConverter m_Converter;
+        private readonly ILoggerRepository m_Repository;
 
         public void Intercept(IInvocation invocation)
         {

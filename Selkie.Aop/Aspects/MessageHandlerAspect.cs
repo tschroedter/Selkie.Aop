@@ -11,12 +11,6 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class MessageHandlerAspect : IInterceptor
     {
-        private readonly ISelkieBus m_Bus;
-        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
-        private readonly IExceptionLogger m_ExceptionLogger;
-        private readonly IInvocationToTextConverter m_InvocationToTextConverter;
-        private readonly ILoggerRepository m_Repository;
-
         public MessageHandlerAspect([NotNull] ISelkieBus bus,
                                     [NotNull] ILoggerRepository repository,
                                     [NotNull] IInvocationToTextConverter invocationToTextConverter,
@@ -29,6 +23,12 @@ namespace Selkie.Aop.Aspects
             m_ExceptionToMessageConverter = exceptionToMessageConverter;
             m_ExceptionLogger = exceptionLogger;
         }
+
+        private readonly ISelkieBus m_Bus;
+        private readonly IExceptionLogger m_ExceptionLogger;
+        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
+        private readonly IInvocationToTextConverter m_InvocationToTextConverter;
+        private readonly ILoggerRepository m_Repository;
 
         public void Intercept(IInvocation invocation)
         {

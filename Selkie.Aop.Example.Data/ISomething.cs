@@ -8,8 +8,8 @@
         void DoSomething(string input);
 
         void DoSomething(Record record);
-        void DoSomethingThrows(Record record);
         void DoSomethingStatus(string input);
         void DoSomethingStatus(Record record);
+        void DoSomethingThrows(Record record);
     }
 }

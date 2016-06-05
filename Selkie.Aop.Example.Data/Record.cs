@@ -3,7 +3,6 @@
 namespace Selkie.Aop.Example.Data
 {
     [ExcludeFromCodeCoverage]
-    //ncrunch: no coverage start
     public class Record
     {
         public Record(double n1,

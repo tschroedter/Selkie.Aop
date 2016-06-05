@@ -5,10 +5,9 @@ using Castle.Windsor;
 namespace Selkie.Aop.Example
 {
     [ExcludeFromCodeCoverage]
-    //ncrunch: no coverage start
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var container = new WindsorContainer();
             var installer = new Installer();

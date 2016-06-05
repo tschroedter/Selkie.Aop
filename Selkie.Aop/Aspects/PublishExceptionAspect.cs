@@ -10,10 +10,6 @@ namespace Selkie.Aop.Aspects
     [ProjectComponent(Lifestyle.Transient)]
     public class PublishExceptionAspect : IInterceptor
     {
-        private readonly ISelkieBus m_Bus;
-        private readonly IExceptionLogger m_ExceptionLogger;
-        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
-
         public PublishExceptionAspect([NotNull] ISelkieBus bus,
                                       [NotNull] IExceptionLogger exceptionLogger,
                                       [NotNull] IExceptionToMessageConverter exceptionToMessageConverter)
@@ -22,6 +18,10 @@ namespace Selkie.Aop.Aspects
             m_ExceptionLogger = exceptionLogger;
             m_ExceptionToMessageConverter = exceptionToMessageConverter;
         }
+
+        private readonly ISelkieBus m_Bus;
+        private readonly IExceptionLogger m_ExceptionLogger;
+        private readonly IExceptionToMessageConverter m_ExceptionToMessageConverter;
 
         public void Intercept(IInvocation invocation)
         {
