@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Core2.Selkie.Aop.Example.Data
 {
@@ -16,13 +17,13 @@ namespace Core2.Selkie.Aop.Example.Data
             Result = result;
         }
 
-        public double OperandNumberOne { get; private set; }
+        public double OperandNumberOne { get; }
 
-        public double OperandNumberTwo { get; private set; }
+        public double OperandNumberTwo { get; }
 
-        public string Operation { get; private set; }
+        public string Operation { get; }
 
-        public double Result { get; private set; }
+        public double Result { get; }
 
         public override string ToString()
         {

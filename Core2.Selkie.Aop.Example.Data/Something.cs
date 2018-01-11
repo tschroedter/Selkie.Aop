@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Castle.Core;
 using Core2.Selkie.Aop.Aspects;
 using Core2.Selkie.Windsor;
+using JetBrains.Annotations;
 
 namespace Core2.Selkie.Aop.Example.Data
 {
@@ -11,6 +12,7 @@ namespace Core2.Selkie.Aop.Example.Data
     [Interceptor(typeof( LogAspect ))]
     [Interceptor(typeof( MessageHandlerAspect ))]
     [ProjectComponent(Lifestyle.Transient)]
+    [UsedImplicitly]
     public class Something : ISomething
     {
         public int Augment(int input)

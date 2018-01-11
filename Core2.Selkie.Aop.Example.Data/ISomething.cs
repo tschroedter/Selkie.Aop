@@ -1,7 +1,10 @@
-﻿namespace Core2.Selkie.Aop.Example.Data
+﻿using JetBrains.Annotations;
+
+namespace Core2.Selkie.Aop.Example.Data
 {
     public interface ISomething
     {
+        [UsedImplicitly]
         int Property { get; set; }
 
         int Augment(int input);
