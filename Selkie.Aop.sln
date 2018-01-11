@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27205.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop.Example", "Selkie.Aop.Example\Selkie.Aop.Example.csproj", "{E30DCF69-90AA-4355-AA70-4887A4862013}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Selkie.Aop", "NuGet.Selkie.Aop\NuGet.Selkie.Aop.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Aop", "Selkie.Aop\Selkie.Aop.csproj", "{7542560D-1537-411D-9E41-3C59C102D65C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core2", "Core2", "{7191E018-F74A-4222-B40F-B1B2A2466197}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2.Selkie.Aop", "Core2.Selkie.Aop\Core2.Selkie.Aop.csproj", "{62FEE4AE-ED34-4052-9457-94E398D2322D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +43,18 @@ Global
 		{7542560D-1537-411D-9E41-3C59C102D65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7542560D-1537-411D-9E41-3C59C102D65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7542560D-1537-411D-9E41-3C59C102D65C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62FEE4AE-ED34-4052-9457-94E398D2322D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62FEE4AE-ED34-4052-9457-94E398D2322D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62FEE4AE-ED34-4052-9457-94E398D2322D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62FEE4AE-ED34-4052-9457-94E398D2322D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62FEE4AE-ED34-4052-9457-94E398D2322D} = {7191E018-F74A-4222-B40F-B1B2A2466197}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE73DC06-229D-41B3-95AA-C8D8063EDE6E}
 	EndGlobalSection
 EndGlobal

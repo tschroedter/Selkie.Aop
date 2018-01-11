@@ -187,3 +187,4 @@ FakesAssemblies/
 NuGet.Selkie.ACO/lib/
 coverage/
 nunit-test-reports.xml
+/.vs/Selkie.Aop/v15/Server/sqlite3
