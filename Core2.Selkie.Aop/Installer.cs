@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Core2.Selkie.Windsor;
+
+[assembly: InternalsVisibleTo("Core2.Selkie.Aop.Tests")]
 
 namespace Core2.Selkie.Aop
 {
