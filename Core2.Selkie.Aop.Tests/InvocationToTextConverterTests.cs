@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Castle.DynamicProxy;
+using Core2.Selkie.Aop.Tests.Aspects;
 using NSubstitute;
 using NUnit.Framework;
-using Core2.Selkie.Aop.Tests.Aspects;
 
 namespace Core2.Selkie.Aop.Tests
 {
@@ -21,6 +21,7 @@ namespace Core2.Selkie.Aop.Tests
         {
             // ReSharper disable UnusedAutoPropertyAccessor.Local
             public int Number { get; set; }
+
             public string Text { get; set; }
             // ReSharper restore UnusedAutoPropertyAccessor.Local
         }

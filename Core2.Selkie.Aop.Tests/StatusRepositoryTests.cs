@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Core2.Selkie.Aop.Aspects;
 using JetBrains.Annotations;
 using NUnit.Framework;
-using Core2.Selkie.Aop.Aspects;
 
 namespace Core2.Selkie.Aop.Tests
 {

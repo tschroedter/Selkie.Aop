@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Castle.DynamicProxy;
-using NSubstitute;
-using NUnit.Framework;
 using Core2.Selkie.Aop.Aspects;
 using Core2.Selkie.Aop.Messages;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Core2.Selkie.Aop.Tests.Aspects
 {
@@ -84,7 +84,8 @@ namespace Core2.Selkie.Aop.Tests.Aspects
                                                                                exception);
 
                 // Assert
-                Assert.True(actual.StackTrace.StartsWith("   at Core2.Selkie.Aop.Tests.Aspects.ExceptionToMessageConver"));
+                Assert.True(actual.StackTrace
+                                  .StartsWith("   at Core2.Selkie.Aop.Tests.Aspects.ExceptionToMessageConver"));
             }
         }
 

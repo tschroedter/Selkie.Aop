@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using NUnit.Framework;
 using Core2.Selkie.Aop.Aspects;
+using NUnit.Framework;
 
 namespace Core2.Selkie.Aop.Tests.Aspects
 {

@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Castle.Core.Logging;
 using Castle.DynamicProxy;
+using Core2.Selkie.Aop.Aspects;
 using NSubstitute;
 using NUnit.Framework;
-using Core2.Selkie.Aop.Aspects;
 
 namespace Core2.Selkie.Aop.Tests.Aspects
 {

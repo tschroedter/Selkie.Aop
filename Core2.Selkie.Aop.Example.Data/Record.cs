@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace Core2.Selkie.Aop.Example.Data

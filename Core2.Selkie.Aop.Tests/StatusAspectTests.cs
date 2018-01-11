@@ -2,11 +2,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Castle.Core.Logging;
 using Castle.DynamicProxy;
-using NSubstitute;
-using NUnit.Framework;
 using Core2.Selkie.Aop.Aspects;
 using Core2.Selkie.Aop.Messages;
 using Core2.Selkie.EasyNetQ.Interfaces;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Core2.Selkie.Aop.Tests
 {

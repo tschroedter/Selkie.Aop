@@ -1,6 +1,6 @@
 ﻿using System;
-using NUnit.Framework;
 using Core2.Selkie.Aop.Messages;
+using NUnit.Framework;
 
 namespace Core2.Selkie.Aop.Tests.Messages
 {
