@@ -59,9 +59,9 @@ namespace Core2.Selkie.Aop.Example
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine("Invocation: {0}".Inject(message.Exception.Invocation));
-            builder.AppendLine("Message: {0}".Inject(message.Exception.Message));
-            builder.AppendLine("StackTrace: {0}".Inject(message.Exception.StackTrace));
+            builder.AppendLine($"Invocation: {message.Exception.Invocation}");
+            builder.AppendLine($"Message: {message.Exception.Message}");
+            builder.AppendLine($"StackTrace: {message.Exception.StackTrace}");
 
             return builder.ToString();
         }
@@ -75,7 +75,7 @@ namespace Core2.Selkie.Aop.Example
 
         private void StatusHandler(StatusMessage message)
         {
-            m_Logger.Debug("StatusHandler: Text = {0}".Inject(message.Text));
+            m_Logger.Debug($"StatusHandler: Text = {message.Text}");
         }
 
         private void TestLogAspect(ISomething something,
@@ -85,7 +85,7 @@ namespace Core2.Selkie.Aop.Example
                                                  StatusHandler);
 
             something.DoSomething("");
-            m_Logger.Debug("Augment 10 returns {0}".Inject(something.Augment(10)));
+            m_Logger.Debug($"Augment 10 returns {something.Augment(10)}");
             something.DoSomething(record);
         }
 
@@ -101,7 +101,7 @@ namespace Core2.Selkie.Aop.Example
             }
             catch ( Exception exception )
             {
-                m_Logger.Debug("Try/Catch {0}".Inject(exception.Message));
+                m_Logger.Debug($"Try/Catch {exception.Message}");
             }
         }
     }
