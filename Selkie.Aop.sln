@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{73005763
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2.Selkie.Aop.Tests", "Core2.Selkie.Aop.Tests\Core2.Selkie.Aop.Tests.csproj", "{7EE225EF-A78D-4780-A127-F1FFA491D85B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{C7665322-0816-405B-B00B-EF1979F09D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2.Selkie.Aop.Example.Data", "Core2.Selkie.Aop.Example.Data\Core2.Selkie.Aop.Example.Data.csproj", "{33B5842B-B6C1-4384-BB57-47FAE0340FB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{7EE225EF-A78D-4780-A127-F1FFA491D85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EE225EF-A78D-4780-A127-F1FFA491D85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EE225EF-A78D-4780-A127-F1FFA491D85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33B5842B-B6C1-4384-BB57-47FAE0340FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33B5842B-B6C1-4384-BB57-47FAE0340FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33B5842B-B6C1-4384-BB57-47FAE0340FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33B5842B-B6C1-4384-BB57-47FAE0340FB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +71,8 @@ Global
 		{62FEE4AE-ED34-4052-9457-94E398D2322D} = {7191E018-F74A-4222-B40F-B1B2A2466197}
 		{73005763-D8A7-4892-99DC-1E6649897291} = {7191E018-F74A-4222-B40F-B1B2A2466197}
 		{7EE225EF-A78D-4780-A127-F1FFA491D85B} = {73005763-D8A7-4892-99DC-1E6649897291}
+		{C7665322-0816-405B-B00B-EF1979F09D23} = {7191E018-F74A-4222-B40F-B1B2A2466197}
+		{33B5842B-B6C1-4384-BB57-47FAE0340FB7} = {C7665322-0816-405B-B00B-EF1979F09D23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FE73DC06-229D-41B3-95AA-C8D8063EDE6E}
