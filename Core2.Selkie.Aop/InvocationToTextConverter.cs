@@ -19,6 +19,7 @@ namespace Core2.Selkie.Aop
             return called;
         }
 
+        [UsedImplicitly]
         internal string ConvertArgumentsToString([NotNull] object[] arguments)
         {
             var builder = new StringBuilder(100);

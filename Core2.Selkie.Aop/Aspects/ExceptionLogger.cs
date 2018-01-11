@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 namespace Core2.Selkie.Aop.Aspects
 {
     [ProjectComponent(Lifestyle.Transient)]
+    [UsedImplicitly]
     public class ExceptionLogger : IExceptionLogger
     {
         public ExceptionLogger([NotNull] ILogger logger,

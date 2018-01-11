@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 namespace Core2.Selkie.Aop
 {
     [ProjectComponent(Lifestyle.Singleton)]
+    [UsedImplicitly]
     public class LoggerRepository : ILoggerRepository
     {
         public LoggerRepository([NotNull] ILoggerFactory loggerFactory)

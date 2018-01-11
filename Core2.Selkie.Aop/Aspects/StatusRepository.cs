@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 namespace Core2.Selkie.Aop.Aspects
 {
     [ProjectComponent(Lifestyle.Singleton)]
+    [UsedImplicitly]
     public class StatusRepository : IStatusRepository
     {
         private readonly ConcurrentDictionary <string, string> m_Dictionary =

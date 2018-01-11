@@ -12,6 +12,6 @@ namespace Core2.Selkie.Aop.Aspects
             Text = text;
         }
 
-        public string Text { get; private set; }
+        public string Text { get; }
     }
 }
